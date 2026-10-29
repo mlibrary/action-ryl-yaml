@@ -1,0 +1,31 @@
+name: ryl-yaml
+description: Lint yaml files with owenlamont/ryl
+inputs:
+  enforce_extension:
+    description: >-
+      Enforce a file extension for yaml files. One of ".yaml", ".yml", or
+      "false" to disable enforcement.
+    required: false
+    default: ".yaml"
+runs:
+  using: composite
+  steps:
+    - name: Validate inputs
+      shell: bash
+      env:
+        ENFORCE_EXTENSION: ${{ inputs.enforce_extension }}
+      run: |
+        case "$ENFORCE_EXTENSION" in
+          .yaml|.yml|false) ;;
+          *)
+            echo "::error::enforce_extension must be '.yaml', '.yml', or 'false' (got '$ENFORCE_EXTENSION')"
+            exit 1
+            ;;
+        esac
+    - name: Lint yaml files
+      shell: bash
+      env:
+        ENFORCE_EXTENSION: ${{ inputs.enforce_extension }}
+      run: |
+        # TODO: add ryl logic
+        echo "enforce_extension=$ENFORCE_EXTENSION"
