@@ -1,0 +1,28 @@
+name: Test
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions: {}
+jobs:
+  test:
+    strategy:
+      matrix:
+        runner:
+        - ubuntu-26.04
+        - ubuntu-26.04-arm
+        - ubuntu-24.04
+        - ubuntu-24.04-arm
+        - xcode-27
+        - macos-26
+    name: Test linting
+    runs-on: ${{ matrix.runner }}
+    permissions:
+      contents: read
+    steps:
+    - name: Checkout
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+    - name: Lint yaml files
+      uses: $/

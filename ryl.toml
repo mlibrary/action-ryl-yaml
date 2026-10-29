@@ -1,0 +1,42 @@
+[files]
+yaml = ["*.yaml", "*.yml"]
+
+[format]
+comment-spacing = 1
+document-start = "preserve"
+indent-sequences = false
+line-ending = "lf"
+max-blank-lines = 1
+quote-style = "preserve"
+
+[lint.rules]
+anchors = "enable"
+braces = "enable"
+brackets = "enable"
+colons = "enable"
+commas = "enable"
+hyphens = "enable"
+key-duplicates = "enable"
+new-line-at-end-of-file = "enable"
+new-lines = "enable"
+trailing-spaces = "enable"
+
+[lint.rules.document-end]
+present = false
+
+[lint.rules.empty-lines]
+max = 1
+
+[lint.rules.indentation]
+indent-sequences = false
+spaces = 2
+
+[lint.rules.quoted-strings]
+allow-double-quotes-for-escaping = true
+allow-quoted-quotes = true
+check-keys = false
+quote-type = "double"
+required = "only-when-needed"
+
+[lint.rules.truthy]
+check-keys = false

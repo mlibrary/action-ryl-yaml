@@ -1,0 +1,21 @@
+name: Release
+on:
+  push:
+    tags: ["*"]
+permissions: {}
+jobs:
+  release:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+    - name: Release
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      run: |
+        gh release create "$GITHUB_REF_NAME" \
+          --verify-tag \
+          --generate-notes \
+          --repo "$GITHUB_REPOSITORY" \
+          --draft \
+          --title "$GITHUB_REF_NAME"

@@ -1,0 +1,54 @@
+name: ryl-yaml
+description: Lint yaml files
+inputs:
+  enforce_extension:
+    description: Shall we error if the file extension `.yml` is used? Defaults to `true`.
+    type: boolean
+    required: false
+    default: true
+runs:
+  using: composite
+  steps:
+  - name: Check yaml file extension
+    shell: bash
+    if: ${{ inputs.enforce_extension == 'true' }}
+    run: |
+      files=$(git ls-files '*.yml')
+      if [ -n "$files" ]; then
+        echo "::error::Use the .yaml extension instead of .yml for:"
+        echo "$files"
+        exit 1
+      fi
+  - name: Fail on unsupported runner
+    if: |-
+      ${{ !((runner.os == 'macOS' && runner.arch == 'ARM64') ||
+            (runner.os == 'Linux' && runner.arch == 'ARM64') ||
+            (runner.os == 'Linux' && runner.arch == 'X64')) }}
+    shell: bash
+    run: |
+      echo "Unsupported runner: os=${{ runner.os }} arch=${{ runner.arch }}"
+      exit 1
+  - name: Install ryl (x64)
+    if: runner.arch == 'X64' && runner.os == 'Linux'
+    uses: jaxxstorm/action-install-gh-release@25e24d2d23ae098373794ef1d6faecb48ee52da8 # v3.0.0
+    with:
+      repo: owenlamont/ryl
+      tag: v0.26.1
+      digest: 17b6fe666c19828179c11e15943643c4d9a940dc5d7c1ae3ec0055f81aaa3023
+  - name: Install ryl (arm64)
+    if: runner.arch == 'ARM64' && runner.os == 'Linux'
+    uses: jaxxstorm/action-install-gh-release@25e24d2d23ae098373794ef1d6faecb48ee52da8 # v3.0.0
+    with:
+      repo: owenlamont/ryl
+      tag: v0.26.1
+      digest: dadeb75d4fc1fcc66d439b18b630d20ad9730eb017c0ecc86a55b11418c6ff51
+  - name: Install ryl (macOS)
+    if: runner.os == 'macOS'
+    uses: jaxxstorm/action-install-gh-release@25e24d2d23ae098373794ef1d6faecb48ee52da8 # v3.0.0
+    with:
+      repo: owenlamont/ryl
+      tag: v0.26.1
+      digest: 753d8637baeb38b35e59fae9da94a226d7ae4423d3d26db89ae424d6a64c2792
+  - name: Lint yaml w/ ryl
+    shell: bash
+    run: ryl check "$GITHUB_WORKSPACE"
