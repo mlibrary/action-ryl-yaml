@@ -18,10 +18,8 @@
       groupName: "actions"
     }
   ],
-  {
-    vulnerabilityAlerts: {
-      enabled: false
-    }
+  vulnerabilityAlerts: {
+    enabled: false
   },
   customManagers: [
     {
