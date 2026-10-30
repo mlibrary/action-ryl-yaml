@@ -18,6 +18,11 @@
       groupName: "actions"
     }
   ],
+  {
+    vulnerabilityAlerts: {
+      enabled: false
+    }
+  },
   customManagers: [
     {
       customType: "regex",
