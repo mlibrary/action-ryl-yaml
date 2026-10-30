@@ -1,0 +1,39 @@
+# "basic" preset
+# Maybe a reasonable start for your project, but really not opinionated enough.
+# Consider this more of an example than a recommendation.
+
+[files]
+yaml = ["*.yaml", "*.yml"]
+
+[format]
+comment-spacing = 1
+document-start = "add"
+indent-sequences = false
+line-ending = "lf"
+quote-style = "preserve"
+
+[lint.rules]
+anchors = "enable"
+braces = "enable"
+brackets = "enable"
+colons = "enable"
+commas = "enable"
+document-start = "enable"
+hyphens = "enable"
+key-duplicates = "enable"
+new-line-at-end-of-file = "enable"
+new-lines = "enable"
+trailing-spaces = "enable"
+
+[lint.rules.document-end]
+present = false
+
+[lint.rules.empty-lines]
+max = 2
+
+[lint.rules.indentation]
+indent-sequences = false
+spaces = 2
+
+[lint.rules.truthy]
+check-keys = false

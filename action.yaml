@@ -2,13 +2,38 @@ name: ryl-yaml
 description: Lint yaml files
 inputs:
   enforce_extension:
-    description: Shall we error if the file extension `.yml` is used? Defaults to `true`.
+    description: >
+      Shall we error if the file extension `.yml` is used? Defaults to `true`.
     type: boolean
     required: false
     default: true
+  strict:
+    description: >
+      Use `--strict` flag (warnings return non-zero)? Defaults to `false`.
+    type: boolean
+    required: false
+    default: false
+  config:
+    description: >
+      Choose an action-bundled ryl config name, or `repo` to use repo supplied
+      config. Defaults to `repo`. See README for list of bundled config options.
+    type: string
+    required: false
+    default: repo
 runs:
   using: composite
   steps:
+  - name: Fail on invalid config
+    shell: bash
+    if: |-
+      ${{ !((inputs.config == 'repo') ||
+            (inputs.config == 'standard') ||
+            (inputs.config == 'basic') ||
+            (inputs.config == 'default') ||
+            (inputs.config == 'relaxed')) }}
+    run: |
+      echo "Unsupported 'config' setting, must be one of: repo, standard, basic, default, relaxed"
+      exit 1
   - name: Check yaml file extension
     shell: bash
     if: ${{ inputs.enforce_extension == 'true' }}
@@ -49,6 +74,13 @@ runs:
       repo: owenlamont/ryl
       tag: v0.26.1
       digest: 753d8637baeb38b35e59fae9da94a226d7ae4423d3d26db89ae424d6a64c2792
-  - name: Lint yaml w/ ryl
+  - name: Lint yaml w/ ryl (repo supplied config)
     shell: bash
+    if: ${{ inputs.config == 'repo' }}
     run: ryl check "$GITHUB_WORKSPACE"
+  - name: Lint yaml w/ ryl (action supplied config)
+    shell: bash
+    if: ${{ inputs.config != 'repo' }}
+    env:
+      ACTION_RYL_CONFIG_FILE: ${{ github.action_path }}/configs/${{ inputs.config }}.toml
+    run: ryl check --config-file "$ACTION_RYL_CONFIG_FILE" "$GITHUB_WORKSPACE"
