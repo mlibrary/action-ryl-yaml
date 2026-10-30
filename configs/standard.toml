@@ -1,3 +1,9 @@
+# "standard" preset
+# Staunchly opinionated, but flexible enough to work in most use cases.
+# When in doubt, use this preset for your project.
+#
+# PRs encouraged. This repo will always use this config when linting itself.
+
 [files]
 yaml = ["*.yaml", "*.yml"]
 
@@ -30,6 +36,16 @@ max = 1
 [lint.rules.indentation]
 indent-sequences = false
 spaces = 2
+
+[lint.rules.line-length]
+# Yep, warnings are a cop-out. Use `--strict` if you want.
+# GitHub actions are full of inline bash and js that doesn't wrap well. The warning
+# serves as a nudge rather than an automatic CI failure.
+level = "warning"
+# 110 is roughly the width that doesn't make a mess when showing diffs in GitHub web
+# interface. You can (and should!) make lines shorted than 110, but setting this to
+# 80 makes too much noise to be useful in a linter.
+max = 110
 
 [lint.rules.quoted-strings]
 allow-double-quotes-for-escaping = true
