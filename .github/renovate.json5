@@ -1,0 +1,32 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: ["config:recommended"],
+  enabledManagers: ["github-actions", "custom.regex"],
+  prBodyTemplate: "{{{header}}}{{{table}}}{{{warnings}}}{{{notes}}}{{{changelogs}}}{{{footer}}}",
+  packageRules: [
+    {
+      matchDepTypes: ["uses-with"],
+      matchPackageNames: ["owenlamont/ryl"],
+      enabled: false
+    },
+    {
+      matchDepTypes: ["github-runner"],
+      enabled: false
+    },
+    {
+      matchDepTypes: ["action"],
+      groupName: "actions"
+    }
+  ],
+  customManagers: [
+    {
+      customType: "regex",
+      managerFilePatterns: ["action.yaml"],
+      matchStrings: [
+        "repo:\\s*(?<depName>[\\w.-]+/[\\w.-]+)\\s*\\n\\s*tag:\\s*(?<currentValue>v?\\d+\\.\\d+\\.\\d+)\\s*\\n\\s*digest:\\s*(?<currentDigest>[a-f0-9]{64})"
+      ],
+      datasourceTemplate: "github-release-attachments",
+      versioningTemplate: "semver"
+    }
+  ]
+}
