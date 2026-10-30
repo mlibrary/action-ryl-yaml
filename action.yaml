@@ -40,8 +40,7 @@ runs:
     run: |
       files=$(git ls-files '*.yml')
       if [ -n "$files" ]; then
-        echo "::error::Use the .yaml extension instead of .yml for:"
-        echo "$files"
+        echo "::error::Use the .yaml extension instead of .yml for: $files"
         exit 1
       fi
   - name: Fail on unsupported runner
