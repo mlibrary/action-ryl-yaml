@@ -57,22 +57,22 @@ runs:
     uses: jaxxstorm/action-install-gh-release@25e24d2d23ae098373794ef1d6faecb48ee52da8 # v3.0.0
     with:
       repo: owenlamont/ryl
-      tag: v0.27.0
-      digest: 8d494a2742d8f2d57a49bd7db38034650ca98200f08d0c733c4650cbf5ec026d
+      tag: v0.29.0
+      digest: 143aaca73b9684ba56c19406669e0246d3fcd7e276a51998b37b288c4c3475f1
   - name: Install ryl (arm64)
     if: runner.arch == 'ARM64' && runner.os == 'Linux'
     uses: jaxxstorm/action-install-gh-release@25e24d2d23ae098373794ef1d6faecb48ee52da8 # v3.0.0
     with:
       repo: owenlamont/ryl
-      tag: v0.27.0
-      digest: 25fdbd300dde7944bcc9e858984246e503cbc5a66cc3b5bee9f926925d4581b1
+      tag: v0.29.0
+      digest: 46ec5176e24ddcfca8583daef642f5c22fddc93919dce63e59883941e4e72974
   - name: Install ryl (macOS)
     if: runner.os == 'macOS'
     uses: jaxxstorm/action-install-gh-release@25e24d2d23ae098373794ef1d6faecb48ee52da8 # v3.0.0
     with:
       repo: owenlamont/ryl
-      tag: v0.27.0
-      digest: a503a54647f72bb66eb48f2418b11f1d3baf4ef64bd83f80486feea9cf7f431b
+      tag: v0.29.0
+      digest: 82dc5826925fff7b8e8709ff3bf0ed3b98a48ae932db9c28bc9e425c21f7e7ed
   - name: Lint yaml w/ ryl (repo supplied config)
     shell: bash
     if: ${{ inputs.config == 'repo' }}
